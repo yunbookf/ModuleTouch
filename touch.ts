@@ -8,7 +8,7 @@
 
 class ModuleTouch {
 
-    public static version: string = "0.1";
+    public static version: string = "0.2";
 
     public static tap(na: any, fun: (e?: JQueryEventObject) => any): void {
 
@@ -16,7 +16,7 @@ class ModuleTouch {
         n.on("touchstart.mt", function(e: JQueryEventObject): void {
             // --- 注意，n 可能是个集合，只有 this 才代表当下 ---
             let node: JQuery = $(this);
-            e.preventDefault();
+            node.data("touch", true);
             let touch: Touch = (<TouchEvent>e.originalEvent).targetTouches[0];
             node.data("oTouch", {pageX: touch.pageX, pageY: touch.pageY}).data("nTouch", node.data("oTouch"));
             node.addClass("hover");
@@ -33,8 +33,12 @@ class ModuleTouch {
                     return fun.call(node[0], e);
                 }
             });
-        }).on("click", function(e: JQueryEventObject): void {
-            return fun.call(this, e);
+        }).on("click", function(e: JQueryEventObject): any {
+            if ($(this).data("touch") === true) {
+                $(this).removeData("touch");
+            } else
+                return fun.call(this, e);
+
         });
 
     }

@@ -5,7 +5,7 @@ var ModuleTouch = (function () {
         var n = $(na);
         n.on("touchstart.mt", function (e) {
             var node = $(this);
-            e.preventDefault();
+            node.data("touch", true);
             var touch = e.originalEvent.targetTouches[0];
             node.data("oTouch", { pageX: touch.pageX, pageY: touch.pageY }).data("nTouch", node.data("oTouch"));
             node.addClass("hover");
@@ -23,10 +23,14 @@ var ModuleTouch = (function () {
                 }
             });
         }).on("click", function (e) {
-            return fun.call(this, e);
+            if ($(this).data("touch") === true) {
+                $(this).removeData("touch");
+            }
+            else
+                return fun.call(this, e);
         });
     };
-    ModuleTouch.version = "0.1";
+    ModuleTouch.version = "0.2";
     return ModuleTouch;
 }());
 //# sourceMappingURL=touch.js.map

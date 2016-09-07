@@ -30,7 +30,7 @@ normal:
 touch:  
   
 ```html
-<div id="touchDiv" class="hover">touch me</div>
+<div id="touchDiv" class="hover-mt">touch me</div>
 ```
   
 You can use CSS to custom style.

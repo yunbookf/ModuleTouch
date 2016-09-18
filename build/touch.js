@@ -69,7 +69,7 @@ var ModuleTouch = (function () {
                         node.data("scrollTimer", setTimeout(function () {
                             node.removeData("scrollStart").data("scrollTimer", 0);
                             node.data("scrollEndFun").call(node, e);
-                        }, 150));
+                        }, 75));
                     }
                     else {
                         if (node.data("scrollTimer") !== 0) {
@@ -77,7 +77,7 @@ var ModuleTouch = (function () {
                             node.data("scrollTimer", setTimeout(function () {
                                 node.removeData("scrollStart").removeData("touchScroll").data("scrollTimer", 0);
                                 node.data("scrollEndFun").call(node, e);
-                            }, 150));
+                            }, 75));
                         }
                     }
                 }).on("touchstart.mt", function () {
@@ -89,7 +89,7 @@ var ModuleTouch = (function () {
                         node.data("scrollTimer", setTimeout(function () {
                             node.removeData("scrollStart").removeData("touchScroll").data("scrollTimer", 0);
                             node.data("scrollEndFun").call(node, e);
-                        }, 150));
+                        }, 75));
                     }).bind(this));
                 });
             }

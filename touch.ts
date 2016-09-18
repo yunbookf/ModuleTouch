@@ -88,7 +88,7 @@ class ModuleTouch {
                         node.data("scrollTimer", setTimeout(function(): void {
                             node.removeData("scrollStart").data("scrollTimer", 0);
                             node.data("scrollEndFun").call(node, e);
-                        }, 150));
+                        }, 75));
                     } else {
                         // --- 是手机 ---
                         if (node.data("scrollTimer") !== 0) {
@@ -96,7 +96,7 @@ class ModuleTouch {
                             node.data("scrollTimer", setTimeout(function(): void {
                                 node.removeData("scrollStart").removeData("touchScroll").data("scrollTimer", 0);
                                 node.data("scrollEndFun").call(node, e);
-                            }, 150));
+                            }, 75));
                         }
                     }
                 }).on("touchstart.mt", function(): void {
@@ -108,7 +108,7 @@ class ModuleTouch {
                         node.data("scrollTimer", setTimeout(function(): void {
                             node.removeData("scrollStart").removeData("touchScroll").data("scrollTimer", 0);
                             node.data("scrollEndFun").call(node, e);
-                        }, 150));
+                        }, 75));
                     }).bind(this));
                 });
             }

@@ -1,5 +1,10 @@
 # ModuleTouch
-Event extend for mobile and compatible with PC browser.  
+无延迟的手机 click 事件、scrollStart 和 scrollEnd 事件，兼容电脑和手机，使用 jQuery 3.1.0。
+No delay mobile click, scrollStart and scrollEnd Events. compatible desktop browser and mobile with jQuery 3.1.0.
+
+```html
+<script src="touch.min.js"></script>
+```
   
 For example:  
   

@@ -69,7 +69,7 @@ Support desktop browser and mobile.
 ## 但凡不是 a 标签，请 return false / Anyone who is not a link, return false
   
 ```typescript
-ModuleTouch.tap("a:eq(0)", function(e: JQueryEventObject): any {
+ModuleTouch.tap("span", function(e: JQueryEventObject): any {
     // do something...
     return false;
 });

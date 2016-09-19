@@ -15,12 +15,12 @@ class ModuleTouch {
     public static tap(na: any, fun: (e?: JQueryEventObject) => any): void {
 
         let n: JQuery = $(na);
-        n.on("touchstart.mt", function(e: JQueryEventObject): void {
+        n.on("touchstart.mt", function(oe: JQueryEventObject): void {
             // --- 注意，n 可能是个集合，只有 this 才代表当下 ---
             let node: JQuery = $(this);
             let ei: number = ++ModuleTouch.eventIndex;
             node.data("touch", true);
-            let touch: Touch = (<TouchEvent>e.originalEvent).targetTouches[0];
+            let touch: Touch = (<TouchEvent>oe.originalEvent).targetTouches[0];
             node.data("oTouch", {screenX: touch.screenX, screenY: touch.screenY}).data("nTouch", node.data("oTouch"));
             node.addClass("active-mt");
             $("body").on("touchmove.mt." + ei, function(e: JQueryEventObject): void {
@@ -33,7 +33,7 @@ class ModuleTouch {
                 $(this).off("touchend.mt." + ei + " touchmove.mt." + ei);
                 node.removeClass("active-mt");
                 if (Math.abs(nTouch.screenX - oTouch.screenX) < 25 && Math.abs(nTouch.screenY - oTouch.screenY) < 25) {
-                    return fun.call(node[0], e);
+                    return fun.call(node[0], oe);
                 }
             });
         }).on("click.mt", function(e: JQueryEventObject): any {
@@ -76,30 +76,30 @@ class ModuleTouch {
             if (node.data("scrollInit") !== true) {
                 node.data("scrollInit", true);
                 node.data("scrollStartFun", function(): void{}).data("scrollEndFun", function(): void{}).data("scrollTimer", 0);
-                node.on("scroll.mt", function(e: JQueryEventObject): void {
+                node.on("scroll.mt", function(oe: JQueryEventObject): void {
                     if (node.data("scrollStart") !== true) {
                         // --- 第一次滚动 ---
                         node.data("scrollStart", true);
-                        node.data("scrollStartFun").call(node, e);
+                        node.data("scrollStartFun").call(node, oe);
                     }
                     // --- 如果不是手机则直接进行监听结束 ---
                     if (node.data("touchScroll") !== true) {
                         clearTimeout(node.data("scrollTimer"));
                         node.data("scrollTimer", setTimeout(function(): void {
                             node.removeData("scrollStart").data("scrollTimer", 0);
-                            node.data("scrollEndFun").call(node, e);
-                        }, 75));
+                            node.data("scrollEndFun").call(node, oe);
+                        }, 70));
                     } else {
                         // --- 是手机 ---
                         if (node.data("scrollTimer") !== 0) {
                             clearTimeout(node.data("scrollTimer"));
                             node.data("scrollTimer", setTimeout(function(): void {
                                 node.removeData("scrollStart").removeData("touchScroll").data("scrollTimer", 0);
-                                node.data("scrollEndFun").call(node, e);
-                            }, 75));
+                                node.data("scrollEndFun").call(node, oe);
+                            }, 70));
                         }
                     }
-                }).on("touchstart.mt", function(): void {
+                }).on("touchstart.mt", function(oe: JQueryEventObject): void {
                     let ei: number = ++ModuleTouch.eventIndex;
                     node.data("touchScroll", true);
                     $("body").on("touchend.mt." + ei, (function(e: JQueryEventObject): void {
@@ -107,8 +107,8 @@ class ModuleTouch {
                         clearTimeout(node.data("scrollTimer"));
                         node.data("scrollTimer", setTimeout(function(): void {
                             node.removeData("scrollStart").removeData("touchScroll").data("scrollTimer", 0);
-                            node.data("scrollEndFun").call(node, e);
-                        }, 75));
+                            node.data("scrollEndFun").call(node, oe);
+                        }, 70));
                     }).bind(this));
                 });
             }

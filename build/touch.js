@@ -3,11 +3,11 @@ var ModuleTouch = (function () {
     }
     ModuleTouch.tap = function (na, fun) {
         var n = $(na);
-        n.on("touchstart.mt", function (e) {
+        n.on("touchstart.mt", function (oe) {
             var node = $(this);
             var ei = ++ModuleTouch.eventIndex;
             node.data("touch", true);
-            var touch = e.originalEvent.targetTouches[0];
+            var touch = oe.originalEvent.targetTouches[0];
             node.data("oTouch", { screenX: touch.screenX, screenY: touch.screenY }).data("nTouch", node.data("oTouch"));
             node.addClass("active-mt");
             $("body").on("touchmove.mt." + ei, function (e) {
@@ -20,7 +20,7 @@ var ModuleTouch = (function () {
                 $(this).off("touchend.mt." + ei + " touchmove.mt." + ei);
                 node.removeClass("active-mt");
                 if (Math.abs(nTouch.screenX - oTouch.screenX) < 25 && Math.abs(nTouch.screenY - oTouch.screenY) < 25) {
-                    return fun.call(node[0], e);
+                    return fun.call(node[0], oe);
                 }
             });
         }).on("click.mt", function (e) {
@@ -59,28 +59,28 @@ var ModuleTouch = (function () {
             if (node.data("scrollInit") !== true) {
                 node.data("scrollInit", true);
                 node.data("scrollStartFun", function () { }).data("scrollEndFun", function () { }).data("scrollTimer", 0);
-                node.on("scroll.mt", function (e) {
+                node.on("scroll.mt", function (oe) {
                     if (node.data("scrollStart") !== true) {
                         node.data("scrollStart", true);
-                        node.data("scrollStartFun").call(node, e);
+                        node.data("scrollStartFun").call(node, oe);
                     }
                     if (node.data("touchScroll") !== true) {
                         clearTimeout(node.data("scrollTimer"));
                         node.data("scrollTimer", setTimeout(function () {
                             node.removeData("scrollStart").data("scrollTimer", 0);
-                            node.data("scrollEndFun").call(node, e);
-                        }, 75));
+                            node.data("scrollEndFun").call(node, oe);
+                        }, 70));
                     }
                     else {
                         if (node.data("scrollTimer") !== 0) {
                             clearTimeout(node.data("scrollTimer"));
                             node.data("scrollTimer", setTimeout(function () {
                                 node.removeData("scrollStart").removeData("touchScroll").data("scrollTimer", 0);
-                                node.data("scrollEndFun").call(node, e);
-                            }, 75));
+                                node.data("scrollEndFun").call(node, oe);
+                            }, 70));
                         }
                     }
-                }).on("touchstart.mt", function () {
+                }).on("touchstart.mt", function (oe) {
                     var ei = ++ModuleTouch.eventIndex;
                     node.data("touchScroll", true);
                     $("body").on("touchend.mt." + ei, (function (e) {
@@ -88,8 +88,8 @@ var ModuleTouch = (function () {
                         clearTimeout(node.data("scrollTimer"));
                         node.data("scrollTimer", setTimeout(function () {
                             node.removeData("scrollStart").removeData("touchScroll").data("scrollTimer", 0);
-                            node.data("scrollEndFun").call(node, e);
-                        }, 75));
+                            node.data("scrollEndFun").call(node, oe);
+                        }, 70));
                     }).bind(this));
                 });
             }
